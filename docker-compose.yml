@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    volumes:
+      - ./app:/project/app
+      - pip-data:/usr/local/lib/python3.12/site-packages/
+      - cache-data:/root/.cache/whisper
+    working_dir: /project/app
+    command: [ sh, -c, "tail -f /dev/null" ]
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 24G
+
+
+volumes:
+  pip-data:
+  cache-data:
